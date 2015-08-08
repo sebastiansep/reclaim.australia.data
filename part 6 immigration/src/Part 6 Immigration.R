@@ -15,6 +15,7 @@ library(ggthemes)
 library(reshape2)
 library(scales)
 library(dplyr)
+library(sep)
 ######
 
 
@@ -27,15 +28,13 @@ austpopln[,-1] = apply(austpopln[,-1],2, function(x) 100*x/sum(x))
 austpopln = melt(austpopln, "Country")
 austpopln$year = as.numeric(gsub("X", "", austpopln$variable))
 austpopln = austpopln[complete.cases(austpopln),]
-p = ggplot(austpopln, aes(x=year, y = value, colour = Country)) +  geom_line(size = 2)
+p = ggplot(austpopln, aes(x=year, y = value, colour = Country)) +  geom_line(size = 3)
 p = p  + scale_fill_manual(values = alpha(c("blue", "red"), .3))
-p = p + theme_few()
+p = sep.theme(p)
 p = p + theme(legend.position="top", legend.title = element_blank())
-p = p + ggtitle("Composition of Australian Population since 1992")
+p = p + ggtitle("Composition of Australian Population since 1992\n")
 p = p + xlab("") + ylab("Percentage of Population") + ylim(0,100)
-jpeg("./graphs/austpop.jpg")
-print(p)
-dev.off()
+sep.png(p, "austpoplns")
 ######
 
 ######Plot Austalian Immigration
@@ -45,13 +44,11 @@ countryimmigration = countryimmigration[complete.cases(countryimmigration),]
 temp = subset(countryimmigration, year == 2014)
 temp = arrange(temp, desc(value))
 countryimmigration$country = factor(countryimmigration$country, levels = temp$country, ordered = T)
-p = ggplot(countryimmigration, aes(x=year, y = value, fill = country)) +  geom_line(aes(colour= country), size = 2)
-p = p + theme_few()
+p = ggplot(countryimmigration, aes(x=year, y = value, fill = country)) +  geom_line(aes(colour= country), size = 3)
+p = sep.theme(p)
 p = p + theme(legend.position="top", legend.title = element_blank()) 
-p = p + ggtitle("Sources of Immigration into Australia since 1992")
+p = p + ggtitle("Sources of Immigration into Australia since 1992\n")
 p = p + xlab("") + ylab("Total Number of Immigrants")
-jpeg("./graphs/austimmigrationsources.jpg")
-print(p)
-dev.off()
+sep.png(p, "austimmigrations")
 ######
 
