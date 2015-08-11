@@ -11,6 +11,7 @@ library(ggthemes)
 library(grid)
 library(sep)
 library(treemap)
+library(RColorBrewer)
 reload.project()
 
 ######
@@ -37,6 +38,6 @@ p = p + theme(axis.line.y = element_blank())
 sep.png(p, "osamamessags")
 ######Terrorism Conflicts
 terrorismwars$Conflict = factor(terrorismwars$Conflict, levels = terrorismwars$Conflict, ordered=T)
-png("./graphs/warsonterror.png", width = 2560, height = 1920)
-treemap(terrorismwars, index="Conflict", vSize = "Death.Toll", inflate.labels = TRUE, title = "")
+png("./graphs/warsonterroroecd.png", width = 2560, height = 1920)
+treemap(terrorismwars, index="Conflict", vSize = "Death.Toll", inflate.labels = TRUE, title = "", position.legend = "none", vColor = blues9[c(1, 6, 9)])
 dev.off()
