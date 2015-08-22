@@ -21,3 +21,6 @@ p = p + ylab("Success Rate (%)") + xlab("Year") + ggtitle("Success Rates of Civi
 #p = p + theme(legend.position="top", legend.title = element_blank(), legend.text=element_text(size=14)) 
 p = sep.theme(p)
 sep.png(p, "non-violent-success")
+
+
+
