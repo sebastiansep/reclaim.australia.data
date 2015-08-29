@@ -29,26 +29,18 @@ asylumarrivals$variable = gsub("Asylum Seeker Boat Arrivals", "Asylum Seekers", 
 asylumarrivals$variable = factor(asylumarrivals$variable, levels = c("Australian Births", "New Migrants", "Asylum Seekers"), ordered = T)
 asylumarrivals = subset(asylumarrivals, variable=="Asylum Seekers")
 p = ggplot(asylumarrivals, aes(x=Year, y = value, colour = variable)) +  geom_bar(stat="identity", fill = "blue", colour = "blue")
-p = sep.theme(p)
-p = p + theme(legend.position="none", legend.title = element_blank()) 
+p = p+ theme_sep()
+p = p + theme(legend.position="none", legend.title = element_blank(), axis.text.x = element_text(size=20)) 
 p = p + ggtitle("Annual Number of Asylum Seekers in Australia since 2010\n")
 p = p + xlab("") + scale_y_continuous(name="Number of New People", labels = comma)
 p = p  + scale_fill_manual(values = alpha(c("blue", "orange", "brown"), .3))
-sep.png(p, "austasylumbarchart")
+sep.png(p, "aust-asylum-numbers")
 ######
 
 ###### Plot australian budget
 temp = budget[1:8,3:4]
 temp = arrange(temp, desc(Expenditure))
 temp$Sector = factor(temp$Sector, levels = temp$Sector, ordered=T)
-p = ggplot(temp, aes(x = Sector, y=Expenditure, fill = Sector)) + geom_bar(stat = "identity", position = "stack")
-p = sep.theme(p, 45)
-p = p + theme(legend.position = "none")
-p = p + ggtitle("Australian Budgetary Expenditure - 2015")
-p = p + xlab("") + ylab("Australian Dollars (Billions)")
-p$layout$clip[p$layout$name == "panel"] <- "off"
-sep.png(p, "austbudget")
-
 temp$end = cumsum(temp$Expenditure)
 temp$start = c(0, temp$end[-length(temp$end)])
 temp$id = 1:nrow(temp)
@@ -56,20 +48,17 @@ temp$Sector = factor(temp$Sector, levels = temp$Sector, ordered=T)
 p = ggplot(temp, aes(Sector, fill = Sector)) + geom_rect(aes(x = Sector,
                                                                  xmin = id - 0.45, xmax = id + 0.45, ymin = end,
                                                                  ymax = start))
-p = sep.theme(p, 45)
+p = p + theme_sep()
 p = p + theme(axis.text.x = element_blank())
 p = p + theme(legend.position = "none")
 p = p  + geom_text(data=temp, 
-                   aes(Sector, end-80, label=Sector),
-                   size=20, angle = 90)
+                   aes(Sector, end-70, label=Sector),
+                   size=6, angle = 90)
 p = p + ggtitle("Australian Budgetary Expenditure - 2015")
 p = p + xlab("") + ylab("Australian Dollars (Billions)")
 p$layout$clip[p$layout$name == "panel"] <- "off"
-sep.png(p, "austbudgetwaterfall")
+sep.png(p, "aust-budget")
 
-# p = p + theme_few()
-# p = p + ylab("Prevalence (%)") + xlab("") + ggtitle("Prevalence of Themes in Osama Bin Laden's Messages")
-# p = p + theme(axis.text.x = element_blank())
 
 ###### 
 
@@ -78,12 +67,11 @@ temp = budget[11:12,1:2]
 names(temp) = c("Method", "Cost")
 temp$Method = factor(temp$Method, levels = temp$Method, ordered=T)
 p = ggplot(temp, aes(x = Method, y=Cost, fill = Method)) + geom_bar(stat = "identity", position = "stack")
-p = sep.theme(p)
-p = p + theme(legend.position="none") 
+p = p + theme_sep()
+p = p + theme(legend.position="none", axis.text.x = element_text(size=20)) 
 p = p + ggtitle("UNHCR Estimated Costs Per Day of Different Asylum Seeker Policy")
 p = p + xlab("") + ylab("US Dollars per Day")
-
-sep.png(p, "asylumcosts")
+sep.png(p, "asylum-policy-costs")
 
 ###### 
 
@@ -122,11 +110,11 @@ pos = asylum.dest$destiso == "AUS"
 asylum.dest$australia[pos] = "orange"
 asylum.dest$destiso = factor(asylum.dest$destiso, levels = asylum.dest$destiso, ordered=T)
 p = ggplot(asylum.dest, aes(x = destiso, y=per10000)) + geom_bar(stat = "identity", fill = asylum.dest$australia)
-p = sep.theme(p)
+p = p + theme_sep()
 p = p + theme(legend.position="none", legend.title = element_blank()) 
 p = p + ggtitle("Asylum seekers and refugees pre 10,000 in OECD countries - 2014")
 p = p + xlab("") + ylab("Asylum seekers and refugees per 10,000 popln")
-sep.png(p, "oecdasylum")
+sep.png(p, "oecd-asylum")
 
 ###### 
 
@@ -144,7 +132,7 @@ p = ggplot(map,aes(long,lat,group=group,fill=`Number of\nAsylum Seekers`))+
   theme(panel.background = element_rect(fill = "lightsteelblue2"))
 p = sep.map.theme(p)
 p = p + ggtitle("Sources of Australian Asylum Seekers")
-p = sep.map.png(p, "asylumsources")
+p = sep.map.png(p, "asylum-sources")
 # ###### end
 
 

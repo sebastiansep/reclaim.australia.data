@@ -26,18 +26,15 @@ osama$Message = factor(osama$Message, levels = osama$Message, ordered=T)
 p = ggplot(osama, aes(Message, fill = Message)) + geom_rect(aes(x = Message,
                                                                 xmin = id - 0.45, xmax = id + 0.45, ymin = end,
                                                                 ymax = start))
-p = sep.theme(p)
+p = p + theme_sep()
 
 p = p + ylab("Prevalence (%)") + xlab("") + ggtitle("Prevalence of Themes in Osama Bin Laden's Messages")
 p = p + theme(axis.text.y = element_blank(), legend.position = "none")
 p = p  + geom_text(data=osama, 
                    aes(Message, end-30, label=Message),
-                   size=20, angle = 0)
+                   size=5, angle = 0)
 p = p + coord_flip()
 p = p + theme(axis.line.y = element_blank())
-sep.png(p, "osamamessags")
-######Terrorism Conflicts
-terrorismwars$Conflict = factor(terrorismwars$Conflict, levels = terrorismwars$Conflict, ordered=T)
-png("./graphs/warsonterroroecd.png", width = 2560, height = 1920)
-treemap(terrorismwars, index="Conflict", vSize = "Death.Toll", inflate.labels = TRUE, title = "", position.legend = "none", vColor = blues9[c(1, 6, 9)])
-dev.off()
+p
+sep.png(p, "osama-messages")
+
