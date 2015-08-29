@@ -1,6 +1,6 @@
 #############################################################################
 #This project calculates stats on asylum seekers in Australia 2014
-#Written by Sepastian Sep 
+#Written by Sebastian Sep 
 #2 August 2015
 #############################################################################
 
